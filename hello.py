@@ -4,6 +4,7 @@ import pinyin_jyutping
 
 app = Flask(__name__)
 
+p = pinyin_jyutping.PinyinJyutping()
 
 @app.route("/", methods=['PUT'])
 def hello_world():
@@ -13,7 +14,7 @@ def hello_world():
     return get_duan(data)
 
 
-def get_duan(raw_passage):
+def get_xuan(raw_passage):
     raw_paragraphs = raw_passage.replace(' ', '').split('\n')
 
     question_index = 0
@@ -24,7 +25,6 @@ def get_duan(raw_passage):
 
     num_questions = 0
 
-    p = pinyin_jyutping.PinyinJyutping()
     passage = []
     for raw_paragraph in raw_paragraphs:
         all_solutions = p.pinyin_all_solutions(raw_paragraph)
@@ -79,12 +79,8 @@ def get_duan(raw_passage):
     return json.dumps(output, ensure_ascii=False, indent=2)
 
 
-def get_xuan(raw_passage):
+def get_duan(raw_passage):
     raw_paragraphs = raw_passage.replace(' ', '').split('\n')
-
-    print('raw', raw_paragraphs)
-
-    p = pinyin_jyutping.PinyinJyutping()
     choices = []
     it = iter(raw_paragraphs)
     while (raw_paragraph := next(it)) and raw_paragraph != '\n':
@@ -118,6 +114,8 @@ def get_xuan(raw_passage):
               'choices': choices, 'passage': passage}
     return json.dumps(output, ensure_ascii=False, indent=2)
 
+
 if __name__ == "__main__":
+    # app.run(debug=True)
     from waitress import serve
     serve(app, host="0.0.0.0", port=8080)
