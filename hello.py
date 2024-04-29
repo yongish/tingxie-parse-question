@@ -10,11 +10,11 @@ p = pinyin_jyutping.PinyinJyutping()
 def hello_world():
     data = request.json['rawString']
     if request.json['exerciseTypeId'] == 0:
-        return get_xuan(data)
-    return get_duan(data)
+        return get_duan(data)
+    return get_yu(data)
 
 
-def get_xuan(raw_passage):
+def get_duan(raw_passage):
     raw_paragraphs = raw_passage.replace(' ', '').split('\n')
 
     question_index = 0
@@ -79,7 +79,7 @@ def get_xuan(raw_passage):
     return json.dumps(output, ensure_ascii=False, indent=2)
 
 
-def get_duan(raw_passage):
+def get_yu(raw_passage):
     raw_paragraphs = raw_passage.replace(' ', '').split('\n')
     choices = []
     it = iter(raw_paragraphs)
