@@ -55,12 +55,11 @@ def get_duan(raw_passage):
 
             if hanzi in ['2', '3', '4', 'c2', 'c3', 'c4']:
                 if hanzi != curr_option:    # Finished processing the option.
-                    if 'question' in globals():
-                        # Standalone number, not associated with a question.
+                    try:
                         question['options'].append(options)
                         options = []
                         curr_option += 1
-                    else:
+                    except:
                         paragraph_list.append({'characters': hanzi})
                 continue
             if hanzi in ['c1', '1']:
